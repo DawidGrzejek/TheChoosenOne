@@ -31,10 +31,8 @@ public class Main extends Application {
         primaryStage.setScene(scene);
 
         //Initialize the stylesheets Variable
-        //scene.getStylesheets().add(Main.class.getResource("/cssMain.css").toExternalForm());
-        String css = Main.class.getResource("/cssMain.css").toExternalForm();
-        scene.getStylesheets().clear();
-        scene.getStylesheets().add(css);
+        scene.getStylesheets().add(Main.class.getResource("/cssMain.css").toExternalForm());
+
 
         //Controls
         Text scenetitle = new Text("Welcome");
