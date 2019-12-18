@@ -1,5 +1,7 @@
 package appItSelf;
 
+import DBEntities.CredentialsEntity;
+import dataBase.DBConnect;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
@@ -17,6 +19,9 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 
@@ -24,14 +29,17 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) {
-        primaryStage.setTitle("JavaFX 2 Login");
+        primaryStage.setTitle("Hello");
 
         BorderPane bp = new BorderPane();
-        bp.setPadding(new Insets(10,50,50,50));
+        bp.setPadding(new Insets(10, 100, 300, 100));
 
         //Adding HBox
         HBox hb = new HBox();
-        hb.setPadding(new Insets(20,20,20,30));
+        hb.setPadding(new Insets(10,10,10,20));
+
+        HBox hb2 = new HBox();
+        hb2.setPadding(new Insets(110,40,0,0));
 
         //Adding GridPane
         GridPane gridPane = new GridPane();
@@ -76,14 +84,19 @@ public class Main extends Application {
         text.setFont(Font.font("Courier New", FontWeight.BOLD, 28));
         text.setEffect(dropShadow);
 
+        Text datbaseRecords = new Text("text2");
+        datbaseRecords.setFont(Font.font("Courier New", FontWeight.BOLD, 28));
+
         //Adding text to HBox
         hb.getChildren().add(text);
+        hb2.getChildren().add(datbaseRecords);
 
         //Add ID's to Nodes
         bp.setId("bp");
         gridPane.setId("root");
         btnLogin.setId("btnLogin");
         text.setId("text");
+        datbaseRecords.setId("datbaseRecords");
 
         //Text
         final Text actiontarget = new Text();
@@ -101,7 +114,8 @@ public class Main extends Application {
             //Check if UserName and Password are given
             if ((txtUserName.getText() != null && !txtUserName.getText().isEmpty()) && (pf.getText() != null && !pf.getText().isEmpty())) {
                 //Check if Password meet requiments
-                String passwprdPattern = "^(?=\\P{Ll}*\\p{Ll})(?=\\P{Lu}*\\p{Lu})(?=\\P{N}*\\p{N})(?=[\\p{L}\\p{N}]*[^\\p{L}\\p{N}])[\\s\\S]{8,}$";
+                //String passwordPattern = "^(?=\\P{Ll}*\\p{Ll})(?=\\P{Lu}*\\p{Lu})(?=\\P{N}*\\p{N})(?=[\\p{L}\\p{N}]*[^\\p{L}\\p{N}])[\\s\\S]{8,}$";
+                String passwordPattern = "^.*(?=.{2,})*$";
                 /*
                 1. ^ Assert position at the start of the line.
                 2. (?=\P{Ll}*\p{Ll}) Ensure at least one lowercase letter (in any script) exists.
@@ -111,15 +125,28 @@ public class Main extends Application {
                 6. [\s\S]{10,} Matches any character 10 or more times.
                 7. $ Assert position at the end of the line.
                 */
-                if(!pf.getText().matches(passwprdPattern)) {
+                String query;
+                DBConnect.typeOfQuery typeOfQuery;
+                if(!pf.getText().matches(passwordPattern)) {
                     label.setText("Your password did not meet our complexity!");
                 }
                 //Save UserName and Password to database
                 else {
-                    String username = txtUserName.getText();
-                    label.setText(username);
                     label.setText(txtUserName.getText() + " " + pf.getText());
+                    //Check if UserName already exists
+                    //language=sql
+                    query = "select * from credentials";
+                    List<CredentialsEntity> credentials = DBConnect.list(query);
+                    System.out.print(credentials.toString() + "\n");
+
+                    //Insert credencials to table credencials
+                    //language=sql
+                    typeOfQuery = DBConnect.typeOfQuery.UPDATE;
+                    query = "insert into credentials (userName, password) " +
+                            "values ('"+txtUserName.getText()+"', '"+pf.getText()+"')";
+                    DBConnect dbConnect = new DBConnect(typeOfQuery, query);
                     actiontarget.setText("Credentials saved.");
+                    System.out.print("Table updated");
                 }
             } else {
                 label.setText("You have not left a username or password");
@@ -129,16 +156,17 @@ public class Main extends Application {
 
         //Add HBox and GridPane layout to BorderPane Layout
         bp.setTop(hb);
+        bp.setBottom(hb2);
         bp.setCenter(gridPane);
 
         //Adding BorderPane to the scene and loading CSS
         Scene scene = new Scene(bp);
         scene.getStylesheets().add(Objects.requireNonNull(getClass().getClassLoader().getResource("login.css")).toExternalForm());
         primaryStage.setScene(scene);
-        primaryStage.titleProperty().bind(
+        /*primaryStage.titleProperty().bind(
                 scene.widthProperty().asString().
                         concat(" : ").
-                        concat(scene.heightProperty().asString()));
+                        concat(scene.heightProperty().asString()));*/
         //primaryStage.setResizable(false);
         primaryStage.show();
     }

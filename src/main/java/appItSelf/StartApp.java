@@ -1,7 +1,5 @@
 package appItSelf;
 
-import appItSelf.Main;
-
 import static javafx.application.Application.launch;
 
 public class StartApp {
