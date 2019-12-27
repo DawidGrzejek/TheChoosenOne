@@ -71,7 +71,7 @@ public class DBConnect {
         try (
                 Connection conn = DriverManager.getConnection(DEFAULT_DB_URL, DEFAULT_user, DEFAULT_pass);
                 PreparedStatement preparedStatement = conn.prepareStatement(query);
-                ResultSet resultSet = preparedStatement.executeQuery(query)
+                ResultSet resultSet = preparedStatement.executeQuery()
         ){
             while (resultSet.next()){
                 CredentialsEntity credentialsEntity = new CredentialsEntity();

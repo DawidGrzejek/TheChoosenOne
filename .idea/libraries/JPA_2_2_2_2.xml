@@ -4,6 +4,8 @@
       <root url="jar://$PROJECT_DIR$/lib/javax.persistence.jar!/" />
     </CLASSES>
     <JAVADOC />
-    <SOURCES />
+    <SOURCES>
+      <root url="jar://$PROJECT_DIR$/lib/javax.persistence.jar!/" />
+    </SOURCES>
   </library>
 </component>
