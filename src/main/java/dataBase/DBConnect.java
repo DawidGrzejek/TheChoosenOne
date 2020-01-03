@@ -34,26 +34,15 @@ public class DBConnect {
             //STEP 4: Create a query
             //Get query from argument
             //STEP 5: Execute a query
-            if(typeOfQuery == DBConnect.typeOfQuery.EXECUTE)
-            stmt.executeQuery(query);
-            else if(typeOfQuery == DBConnect.typeOfQuery.UPDATE)
+            if(typeOfQuery == DBConnect.typeOfQuery.EXECUTE) {
+                stmt.executeQuery(query);
+            }
+            else if(typeOfQuery == DBConnect.typeOfQuery.UPDATE) {
                 stmt.executeUpdate(query);
-            else{
-                System.out.print("Unknown query type");
             }
-            ResultSet rs = stmt.executeQuery(query);
 
-            //Show records
-            while(rs.next()){
-                //Retrieve by column name
-                int id  = rs.getInt("id");
-                String userName = rs.getString("UserName");
-                String password = rs.getString("Password");
-                //Display values
-                System.out.printf("ID:%s Username: %s Password: %s%n", id, userName, password);
-            }
-            //String select = "select * from table1";
-
+            //show records
+            //showTable
 
             stmt.close();
             conn.close();
@@ -70,8 +59,8 @@ public class DBConnect {
         List<CredentialsEntity> credencials = new ArrayList<>();
         try (
                 Connection conn = DriverManager.getConnection(DEFAULT_DB_URL, DEFAULT_user, DEFAULT_pass);
-                PreparedStatement preparedStatement = conn.prepareStatement(query);
-                ResultSet resultSet = preparedStatement.executeQuery()
+                Statement statement = conn.createStatement();
+                ResultSet resultSet = statement.executeQuery(query);
         ){
             while (resultSet.next()){
                 CredentialsEntity credentialsEntity = new CredentialsEntity();
@@ -85,6 +74,7 @@ public class DBConnect {
         }
         return credencials;
     }
+
 
     public enum typeOfQuery{
         UPDATE,

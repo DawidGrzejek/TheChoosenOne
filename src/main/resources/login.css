@@ -7,7 +7,7 @@
 
 }
 
-#bp {
+#bp1 {
     -fx-background-color:  linear-gradient(gray,DimGrey );
 }
 
@@ -39,6 +39,19 @@
     -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.6) , 5, 0.0 , 0 , 1 );
 }
 
+#btnSwitchScene {
+    -fx-text-fill: white;
+    -fx-font-family: "Arial Narrow";
+    -fx-font-weight: bold;
+    -fx-padding: 3px 10px 3px 10px;
+    -fx-background-radius: 30, 30, 29, 28;
+    -fx-background-color: linear-gradient(#61a2b1, #2A5058);
+    -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.6) , 5, 0.0 , 0 , 1 );
+}
+
+#btnSwitchScene:hover {
+    -fx-background-color: linear-gradient(#2A5058, #61a2b1);
+}
 
 .label {
     -fx-font-size: 12px;

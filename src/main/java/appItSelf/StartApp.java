@@ -1,5 +1,7 @@
 package appItSelf;
 
+import tests.StageController;
+
 import static javafx.application.Application.launch;
 
 public class StartApp {
