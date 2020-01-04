@@ -27,7 +27,7 @@ import java.util.Objects;
 
 
 public class Main extends Application {
-    Stage window;
+    private static Stage window;
     Scene scene1, scene2;
 
     @Override
@@ -37,15 +37,15 @@ public class Main extends Application {
         window.setTitle("Hello");
 
         //Adding BorderPane
-        BorderPane bp1 = new BorderPane();
-        bp1.setPadding(new Insets(10, 60, 60, 60));
+        BorderPane bp = new BorderPane();
+        bp.setPadding(new Insets(10, 60, 60, 60));
 
         //Adding HBox
-        HBox hbL = new HBox();
-        hbL.setPadding(new Insets(10,10,10,20));
+        HBox hb = new HBox();
+        hb.setPadding(new Insets(10,10,10,20));
 
-        HBox hb2L = new HBox();
-        hb2L.setPadding(new Insets(10,10,0,0));
+        HBox hb2 = new HBox();
+        hb2.setPadding(new Insets(10,10,0,0));
 
 
         //Adding GridPane
@@ -96,10 +96,10 @@ public class Main extends Application {
 
 
         //Adding text to HBox
-        hbL.getChildren().add(text);
+        hb.getChildren().add(text);
 
         //Add ID's to Nodes
-        bp1.setId("bp1");
+        bp.setId("bp");
         gridPane.setId("root");
         btnLogin.setId("btnLogin");
         btnSwitchScene.setId("btnSwitchScene");
@@ -170,67 +170,65 @@ public class Main extends Application {
         //Seeting an action for the btnSwtichScene
         btnSwitchScene.setOnAction(actionEvent -> {
             //Adjusting Scene2
-
-            //Adding BorderPane2
+            //Adding BorderPane
             BorderPane bp2 = new BorderPane();
-            bp2.setPadding(new Insets(10,60,60,60));
-
-            //Adding HBox2
-            HBox hbR = new HBox();
-            hbL.setPadding(new Insets(10,10,10,20));
-
-            HBox hb2R = new HBox();
-            hb2L.setPadding(new Insets(10,10,0,0));
+            bp2.setPadding(new Insets(10, 60, 60, 60));
 
             //Adding GridPane2
-            GridPane gridPane2 = new GridPane();
-            gridPane2.setPadding(new Insets(20,20,20,20));
-            gridPane2.setHgap(5);
-            gridPane2.setVgap(5);
+            GridPane gridPaneRegister = new GridPane();
+            gridPaneRegister.setPadding(new Insets(20,20,20,20));
+            gridPaneRegister.setHgap(5);
+            gridPaneRegister.setVgap(5);
 
             //Implementing Nodes for GridPane2
-            Label lblPasswordRepeat = new Label("PasswordRepeat");
-            gridPane2.add(lblPasswordRepeat, 0, 1);
             final PasswordField pfr = new PasswordField();
             pfr.setPromptText("Repeat your password");
-            gridPane2.add(pfr, 1, 1);
+            gridPaneRegister.add(pfr, 1, 2);
 
-            //Add ID's to Nodes
-            bp2.setId("bp2");
+            //Implementing Buttons for GridPane2
+            Button btnRegister = new Button("Register");
+            gridPaneRegister.add(btnRegister, 2, 0);
+            final Label lblMessageRegister = new Label();
+            gridPaneRegister.add(lblMessageRegister, 1, 2);
 
             //Adding Nodes for GridPane2
-            gridPane2.add(lblUserName, 0, 0);
-            gridPane2.getChildren().add(txtUserName);
-            gridPane2.add(lblPassword,0,1);
-            gridPane2.add(pf,2,2);
+            gridPaneRegister.add(lblUserName, 0, 0);
+            gridPaneRegister.getChildren().add(txtUserName);
+            gridPaneRegister.add(lblPassword,0,1);
+            gridPaneRegister.add(pf,1,1);
 
+            //Adding Buttons for GridPane2
+            gridPaneRegister.add(btnSwitchScene,2,1);
 
-            gridPane2.add(btnLogin,2,0);
-            gridPane2.add(lblMessage,1,2);
-            gridPane2.add(btnSwitchScene,2,1);
+            //Reflection for gridPane
+            gridPaneRegister.setEffect(r);
+
+            //Add ID's to Nodes
+            gridPaneRegister.setId("gridPaneRegister");
+            bp2.setId("bp2");
+            btnRegister.setId("btnRegister");
+
+            bp2.setTop(hb);
+            bp2.setCenter(gridPaneRegister);
+            bp2.setBottom(hb2);
+
+            scene2 = new Scene(bp2);
+            scene2.getStylesheets().add(Objects.requireNonNull(getClass().getClassLoader().getResource("register.css")).toExternalForm());
 
             window.setScene(scene2);
-            //Adding text to HBox2
-            hb2R.getChildren().add(text);
-            bp2.setTop(hbR);
-            bp2.setBottom(hb2R);
-            bp2.setCenter(gridPane);
         });
 
 
         //Add HBox and GridPane layout to BorderPane Layout
-        bp1.setTop(hbL);
-        bp1.setBottom(hb2L);
-        bp1.setCenter(gridPane);
+        bp.setTop(hb);
+        bp.setBottom(hb2);
+        bp.setCenter(gridPane);
 
 
 
         //Adding BorderPane to the scene and loading CSS
-        scene1 = new Scene(bp1);
+        scene1 = new Scene(bp);
         scene1.getStylesheets().add(Objects.requireNonNull(getClass().getClassLoader().getResource("login.css")).toExternalForm());
-
-        scene2 = new Scene(bp2);
-        scene2.getStylesheets().add(Objects.requireNonNull(getClass().getClassLoader().getResource("register.css")).toExternalForm());
 
         window.setScene(scene1);
         /*window.titleProperty().bind(

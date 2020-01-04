@@ -1,4 +1,4 @@
-#root {
+#gridPaneRegister {
     -fx-background-color:  linear-gradient(lightgray, gray);
     -fx-border-color: white;
     -fx-border-radius: 20;
@@ -25,11 +25,11 @@
     -fx-effect: dropshadow( gaussian , rgba(255,255,255,0.5) , 0,0,0,1 );
 }
 
-#btnLogin:hover {
+#btnRegister:hover {
     -fx-background-color: linear-gradient(#2A5058, #61a2b1);
 }
 
-#btnLogin {
+#btnRegister {
     -fx-text-fill: white;
     -fx-font-family: "Arial Narrow";
     -fx-font-weight: bold;
